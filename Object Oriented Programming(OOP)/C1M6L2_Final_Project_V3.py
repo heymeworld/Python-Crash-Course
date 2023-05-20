@@ -76,10 +76,21 @@ def calculate_frequencies(file_contents):
     punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
     uninteresting_words = ["the", "a", "to", "if", "is", "it", "of", "and", "or", "an", "as", "i", "me", "my",     "we", "our", "ours", "you", "your", "yours", "he", "she", "him", "his", "her", "hers", "its", "they", "them",     "their", "what", "which", "who", "whom", "this", "that", "am", "are", "was", "were", "be", "been", "being",     "have", "has", "had", "do", "does", "did", "but", "at", "by", "with", "from", "here", "when", "where", "how",     "all", "any", "both", "each", "few", "more", "some", "such", "no", "nor", "too", "very", "can", "will", "just"]
     
+    # LEARNER CODE START HERE
+    # 1. string을 매개변수로 받음
+    # 2. string의 문자마다 알파벳인지 아닌지 확인 -> 아니면 공백 문자로 바꿈
+    # 3. 2번의 string을 소문자로 바꾸고, 공백을 기준으로 쪼개서 리스트화 시킨 상태에서, 단어마다 uninteresting_words인지 확인
+    # -> uninteresting_words가 아니면 딕셔너리에 {word: frequency} 형태로 요소를 추가함
+    # 4. file_contents 변수의 상태는 알파벳과 공백으로만 이루어진 string 상태이고, frequencies 딕셔너리는 생성되었음
+    frequencies = {}
     
-    file_contents = "".join((char if char.isalpha() else " ") for char in file_contents).lower().split()
-    words  = [word for word in file_contents if word not in uninteresting_words]
-    frequencies = {word: file_contents.count(word) for word in words}
+    for char in file_contents:
+        if not char.isalpha():
+            file_contents = file_contents.replace(char, " ")
+    
+    for word in file_contents.lower().split():
+        if word not in uninteresting_words:
+            frequencies[word] = file_contents.count(word)
     
     #wordcloud
     cloud = wordcloud.WordCloud()
